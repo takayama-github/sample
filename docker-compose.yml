@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    server:
+        container_name: "server"
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        environment:
+            PORT: "${PORT}"
+            SYSTEM_NAME: "${SYSTEM_NAME}"
+            POSTGRES_HOSTNAME: "db"
+            POSTGRES_USER: "${POSTGRES_USER}"
+            POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+            POSTGRES_DB: "${POSTGRES_DB}"
+            POSTGRES_PORT: "${POSTGRES_PORT}"
+            TZ: "${TZ}"
+        ports:
+            - "80:${PORT}"
+        volumes:
+            - ./server/app:/app
+        depends_on:
+            - db
+    db:
+        image: postgres:10
+        container_name: "db"
+        environment:
+            POSTGRES_USER: "${POSTGRES_USER}"
+            POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+            POSTGRES_DB: "${POSTGRES_DB}"
+            PGTZ: "${TZ}"
+        ports:
+            - "${POSTGRES_PORT}:5432"
+        volumes:
+            - ./db/data:/var/lib/postgresql/data
+            - ./db/initdb:/docker-entrypoint-initdb.d

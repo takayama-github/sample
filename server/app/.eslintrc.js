@@ -17,6 +17,7 @@ module.exports = {
         "no-use-before-define": "off",
         "no-await-in-loop": "off",
         "no-else-return": "off",
-        "no-irregular-whitespace": "off"
+        "no-irregular-whitespace": "off",
+        "class-methods-use-this": "off"
     },
 };
