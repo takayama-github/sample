@@ -9,7 +9,8 @@ class PlanController {
         const formData = await planLogic.getFormData();
         res.render("createPlan", {
             ...formData,
-            title: process.env.SYSTEM_NAME,
+            systemName: process.env.SYSTEM_NAME,
+            title: "学習予定登録",
         });
     }
 

@@ -22,7 +22,8 @@ class CalendarController {
 
         res.render("calendar", {
             ...weeklyCalendar,
-            title: process.env.SYSTEM_NAME,
+            systemName: process.env.SYSTEM_NAME,
+            title: "カレンダー",
         });
     }
 }

@@ -19,58 +19,44 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <form action="/createRecord" method="post">
+                            <form action="/registerExam" method="post">
                                 <table class="table">
                                     <tbody>
                                         <tr>
                                             <th scope="row">
-                                                <label for="exam" >試験名</label>
+                                                <label for="name">試験名</label>
                                             </th>
                                             <td>
-                                                <select id="exam" name="exam" class="custom-select" >
-                                                    <% for (let i = 0; i < exams.length; i++) { %>
-                                                    <option value="<%= exams[i].id %>" >
-                                                        <%= exams[i].name %>
-                                                    </option>
-                                                    <% } %>
-                                                </select>
+                                                <input id="name" class="form-control" name="name" type="text" placeholder="試験名を入力してください。" required />
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
-                                                <label for="title">内容</label>
+                                                <label for="datePlanned">受験予定日</label>
                                             </th>
                                             <td>
-                                                <input id="title" class="form-control" name="title" type="text" placeholder="内容を簡単に入力してください。" />
+                                                <input id="datePlanned" class="form-control" name="datePlanned" type="text" placeholder="日付を選択してください。" readonly="readonly" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
-                                                <label for="date">日付</label>
+                                                <label for="pointQualified">合格点</label>
                                             </th>
                                             <td>
-                                                <input id="date" class="form-control" name="date" type="text" placeholder="日付を選択してください。" readonly="readonly" required />
+                                                <input id="pointQualified" class="form-control" name="pointQualified" type="number" placeholder="試験の合格点を入力してください。" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
-                                                <label for="start">開始時間</label>
+                                                <label for="pointMax">満点</label>
                                             </th>
                                             <td>
-                                                <input id="start" class="form-control" name="start" type="text" placeholder="開始時間を選択してください。" readonly="readonly" required />
+                                                <input id="pointMax" class="form-control" name="pointMax" type="number" placeholder="試験の満点を入力してください。" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
-                                                <label for="end">終了時間</label>
-                                            </th>
-                                            <td>
-                                                <input id="end" class="form-control" name="end" type="text" placeholder="終了時間を選択してください。" readonly="readonly" required />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="title">備考</label>
+                                                <label for="comment">備考</label>
                                             </th>
                                             <td>
                                                 <input id="comment" class="form-control" name="comment" type="text" placeholder="備考があれば入力してください。" />
@@ -89,22 +75,8 @@
         </div>
         <%- include( "./components/_script.ejs" ); %>
         <script>
-            const dateInput = document.getElementById("date");
-            flatpickr(dateInput, { maxDate: "today" });
-            const startInput = document.getElementById("start");
-            flatpickr(startInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i:S",
-                minuteIncrement: 15,
-            });
-            const endInput = document.getElementById("end");
-            flatpickr(endInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i:S",
-                minuteIncrement: 15,
-            });
+            const dateInput = document.getElementById("datePlanned");
+            flatpickr(dateInput);
         </script>
     </body>
 </html>

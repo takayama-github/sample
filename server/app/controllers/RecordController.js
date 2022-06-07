@@ -9,7 +9,8 @@ class RecordController {
         const formData = await recordLogic.getFormData();
         res.render("createRecord", {
             ...formData,
-            title: process.env.SYSTEM_NAME,
+            systemName: process.env.SYSTEM_NAME,
+            title: "学習実績登録",
         });
     }
 

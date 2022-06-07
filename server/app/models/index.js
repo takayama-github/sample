@@ -6,6 +6,7 @@ const RecordModel = require("./RecordModel");
 
 const CalendarLogicModel = require("./CalendarLogicModel");
 const DateLogicModel = require("./DateLogicModel");
+const ExamLogicModel = require("./ExamLogicModel");
 const PlanLogicModel = require("./PlanLogicModel");
 const RecordLogicModel = require("./RecordLogicModel");
 
@@ -23,6 +24,7 @@ const planModel = new PlanModel(client);
 const recordModel = new RecordModel(client);
 
 const calendarLogic = new CalendarLogicModel(examModel, planModel, recordModel);
+const examLogic = new ExamLogicModel(examModel);
 const planLogic = new PlanLogicModel(examModel, planModel);
 const recordLogic = new RecordLogicModel(examModel, recordModel);
 
@@ -32,6 +34,7 @@ module.exports = {
     recordModel,
     calendarLogic,
     dateLogic: DateLogicModel,
+    examLogic,
     planLogic,
     recordLogic,
 };
