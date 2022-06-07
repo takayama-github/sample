@@ -20,7 +20,8 @@ services:
         volumes:
             - ./server/app:/app
         depends_on:
-            - db
+            db:
+                condition: service_healthy
     db:
         image: postgres:10
         container_name: "db"
@@ -34,3 +35,9 @@ services:
         volumes:
             - ./db/data:/var/lib/postgresql/data
             - ./db/initdb:/docker-entrypoint-initdb.d
+        healthcheck:
+            test: "psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'select * from exams'"
+            interval: 1s
+            timeout: 1s
+            retries: 0
+            start_period: 20s

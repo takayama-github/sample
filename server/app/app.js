@@ -35,7 +35,11 @@ app.use((err, req, res) => {
 
     // render the error page
     res.status(err.status || 500);
-    res.render("error");
+    // <error.ejs>
+    const html = `<h1>${err.message}</h1><a href="/">トップに戻る</a>`;
+    // </error.ejs>
+    res.setHeader("Content-Type", "text/html");
+    res.send(html);
 });
 
 module.exports = app;
