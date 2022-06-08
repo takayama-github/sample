@@ -51,8 +51,10 @@ docker-compose start
 docker-compose stop
 docker-compose config
 docker-compose exec db bash
-source ./.env & docker-compose exec db psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+. ./.env
+docker-compose exec db psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 docker logs server
 docker-compose ps
 docker ps
+rm -rf db/data/*
 ```
