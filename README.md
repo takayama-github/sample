@@ -45,15 +45,14 @@
 ## cmd
 
 ```sh
-docker compose up -d
-docker compose down
-docker compose start
-docker compose stop
-docker compose config
-docker compose exec db bash
-docker compose exec db bash -c "./docker-entrypoint-initdb.d/init-database.sh"
-docker compose exec db psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+docker-compose up -d
+docker-compose down
+docker-compose start
+docker-compose stop
+docker-compose config
+docker-compose exec db bash
+source ./.env & docker-compose exec db psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 docker logs server
-docker compose ps
+docker-compose ps
 docker ps
 ```
