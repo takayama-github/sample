@@ -44,7 +44,7 @@
             "prettier --write",
             "eslint --fix"
         ],
-        "{controllers,models}/**/*.js": [
+        "{controllers,models,utils}/**/*.js": [
             "prettier --write",
             "eslint --fix"
         ],
