@@ -1,4 +1,9 @@
-const { dateUtils } = require("../utils");
+const {
+    isValidDate,
+    parseDate,
+    getStartOfWeek,
+    getEndOfWeek,
+} = require("../utils");
 const { calendarLogic } = require("../models");
 
 class CalendarController {
@@ -9,12 +14,12 @@ class CalendarController {
     async getWeekly(req, res) {
         const { query } = req;
         const date =
-            typeof query.date === "string" && dateUtils.isValidDate(query.date)
-                ? dateUtils.parseDate(query.date)
+            typeof query.date === "string" && isValidDate(query.date)
+                ? parseDate(query.date)
                 : new Date();
 
-        const start = dateUtils.getStartOfWeek(date);
-        const end = dateUtils.getEndOfWeek(date);
+        const start = getStartOfWeek(date);
+        const end = getEndOfWeek(date);
 
         const weeklyCalendar = await calendarLogic.getWeeklyCalender(
             start,

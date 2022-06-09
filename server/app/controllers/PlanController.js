@@ -1,4 +1,4 @@
-const { dateUtils } = require("../utils");
+const { formatDateParam, isValidDate, isValidTime } = require("../utils");
 const { planLogic } = require("../models");
 
 class PlanController {
@@ -28,7 +28,7 @@ class PlanController {
 
         await planLogic.create(exam, title, date, start, end, comment);
 
-        const dateParam = dateUtils.formatDateParam(date);
+        const dateParam = formatDateParam(date);
         const search = new URLSearchParams({ date: dateParam });
         res.redirect(`/?${search.toString()}`);
     }
@@ -50,11 +50,7 @@ class PlanController {
             return false;
         }
 
-        if (
-            !dateUtils.isValidDate(date) ||
-            !dateUtils.isValidTime(start) ||
-            !dateUtils.isValidTime(end)
-        ) {
+        if (!isValidDate(date) || !isValidTime(start) || !isValidTime(end)) {
             console.log("invalid datetime!!");
             return false;
         }

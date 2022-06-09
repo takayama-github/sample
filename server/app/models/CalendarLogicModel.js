@@ -1,4 +1,9 @@
-const { dateUtils } = require("../utils");
+const {
+    formatDurationJa,
+    getPrevNext,
+    classifyByDay,
+    aggregateByExam,
+} = require("../utils");
 
 class CalendarLogicModel {
     /**
@@ -45,87 +50,33 @@ class CalendarLogicModel {
 
         const plans = await this.planModel.search({ start, end });
         const records = await this.recordModel.search({ start, end });
+
         const allData = plans
             .map((plan) => ({ ...plan, isPlan: true }))
             .concat(records)
             .sort((a, b) => a.start_timestamp - b.start_timestamp);
-        let weeklyData = [];
-        for (let i = 0; i < 7; i++) {
-            const targetDate = dateUtils.addDate(start, { days: i });
-            const targetData = allData
-                .filter((datum) =>
-                    dateUtils.isSameDate(datum.start_timestamp, targetDate)
-                )
-                .map((datum) => {
-                    const exam = examDict[datum.exam] || "その他";
-                    return { ...datum, exam };
-                });
-            weeklyData = weeklyData.concat([
-                {
-                    date: targetDate,
-                    displayDate: dateUtils.formatDate(targetDate),
-                    data: targetData,
-                },
-            ]);
-        }
-        const planDurations = plans.reduce((acc, plan) => {
-            const planDuration = dateUtils.getDuration(
-                plan.start_timestamp,
-                plan.end_timestamp
-            );
-            if (acc[plan.exam]) {
-                return {
-                    ...acc,
-                    [plan.exam]: dateUtils.addDuration(
-                        acc[plan.exam],
-                        planDuration
-                    ),
-                };
-            } else {
-                return {
-                    ...acc,
-                    [plan.exam]: planDuration,
-                };
-            }
-        }, {});
 
-        const recordDurations = records.reduce((acc, record) => {
-            const recordDuration = dateUtils.getDuration(
-                record.start_timestamp,
-                record.end_timestamp
-            );
-            if (acc[record.exam]) {
-                return {
-                    ...acc,
-                    [record.exam]: dateUtils.addDuration(
-                        acc[record.exam],
-                        recordDuration
-                    ),
-                };
-            } else {
-                return {
-                    ...acc,
-                    [record.exam]: recordDuration,
-                };
-            }
-        }, {});
+        const weeklyData = classifyByDay(allData, start, examDict);
+
+        const planDurations = plans.reduce(aggregateByExam, {});
+        const recordDurations = records.reduce(aggregateByExam, {});
 
         const weeklyStatistics = Object.keys({
             ...planDurations,
             ...recordDurations,
         }).map((key) => ({
             examName: examDict[key],
-            planDuration: dateUtils.formatDurationJa(
+            planDuration: formatDurationJa(
                 planDurations[key] || { minutes: 0 }
             ),
-            recordDuration: dateUtils.formatDurationJa(
+            recordDuration: formatDurationJa(
                 recordDurations[key] || { minutes: 0 }
             ),
         }));
         const rowLength = Math.max(
             ...weeklyData.map((dailyData) => dailyData.data.length)
         );
-        const { prev, next } = dateUtils.getPrevNext(start);
+        const { prev, next } = getPrevNext(start);
         return {
             weeklyData,
             weeklyStatistics,
