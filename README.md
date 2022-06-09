@@ -40,7 +40,38 @@
 指定した日付の週の予定と実績を確認できる
 指定なしだと実行当日を指定する
 
-## テーブル
+## 動かし方
+
+### 前提
+
+- Docker
+- Docker Compose
+- Node.js
+
+### 手順
+
+1. .env設定
+   1. cp .env.sample .env
+   2. .envを修正
+2. node_modulesのインストール
+   1. cd server/app/
+   2. npm ci
+3. docker-compose up -d
+4. localhostにブラウザでアクセス
+
+## 開発
+
+### コード修正
+
+サーバープロセスの実行中はvolumesのマウント＆`nodemon`により、ホストのコード修正を検知して、自動で再起動がかかります。
+
+### フォーマッター
+
+`server/app/`で`npm run lint-staged`をすると、ステージング済みのファイルに対して、`Prettier`と`ESLint`による自動修正が入ります。
+
+### テスト
+
+`jest`による自動テストも導入したいですが、まだできていません。
 
 ## cmd
 
