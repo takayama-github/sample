@@ -58,6 +58,38 @@
 
 ## 開発
 
+### フォルダ構成
+
+```sh
+% tree
+.
+├── .env.sample
+├── .gitignore
+├── README.md
+├── db/
+│   └── initdb/
+│       ├── init-database.sh
+│       └── sql/
+├── docker-compose.yml
+└── server/
+    ├── Dockerfile
+    └── app/
+        ├── app.js
+        ├── bin/
+        │   └── www
+        ├── controllers/
+        ├── jest.config.js
+        ├── models/
+        ├── package-lock.json
+        ├── package.json
+        ├── public/
+        ├── router.js
+        ├── utils/
+        └── views/
+
+15 directories, 40 files
+```
+
 ### コード修正
 
 サーバープロセスの実行中はvolumesのマウント＆`nodemon`により、ホストのコード修正を検知して、自動で再起動がかかります。
