@@ -16,9 +16,10 @@ services:
             POSTGRES_PORT: "${POSTGRES_PORT}"
             TZ: "${TZ}"
         ports:
-            - "80:${PORT}"
+            - "${HOSTPORT}:${PORT}"
         volumes:
             - ./server/app:/app
+            - /app/node_modules
         depends_on:
             db:
                 condition: service_healthy

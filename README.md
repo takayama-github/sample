@@ -53,11 +53,8 @@
 1. .env設定
    1. cp .env.sample .env
    2. .envを修正
-2. node_modulesのインストール
-   1. cd server/app/
-   2. npm ci
-3. docker-compose up -d
-4. localhostにブラウザでアクセス
+2. docker-compose up -d
+3. localhost:${HOSTPORT}にブラウザでアクセス
 
 ## 開発
 
