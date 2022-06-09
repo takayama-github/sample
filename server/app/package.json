@@ -40,10 +40,6 @@
         "tabWidth": 4
     },
     "lint-staged": {
-        "bin/www": [
-            "prettier --write",
-            "eslint --fix"
-        ],
         "{controllers,models,utils}/**/*.js": [
             "prettier --write",
             "eslint --fix"
