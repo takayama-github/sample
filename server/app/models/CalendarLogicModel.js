@@ -1,4 +1,4 @@
-const dateLogic = require("./DateLogicModel");
+const { dateUtils } = require("../utils");
 
 class CalendarLogicModel {
     /**
@@ -51,10 +51,10 @@ class CalendarLogicModel {
             .sort((a, b) => a.start_timestamp - b.start_timestamp);
         let weeklyData = [];
         for (let i = 0; i < 7; i++) {
-            const targetDate = dateLogic.addDate(start, { days: i });
+            const targetDate = dateUtils.addDate(start, { days: i });
             const targetData = allData
                 .filter((datum) =>
-                    dateLogic.isSameDate(datum.start_timestamp, targetDate)
+                    dateUtils.isSameDate(datum.start_timestamp, targetDate)
                 )
                 .map((datum) => {
                     const exam = examDict[datum.exam] || "その他";
@@ -63,20 +63,20 @@ class CalendarLogicModel {
             weeklyData = weeklyData.concat([
                 {
                     date: targetDate,
-                    displayDate: dateLogic.formatDate(targetDate),
+                    displayDate: dateUtils.formatDate(targetDate),
                     data: targetData,
                 },
             ]);
         }
         const planDurations = plans.reduce((acc, plan) => {
-            const planDuration = dateLogic.intervalToDuration(
+            const planDuration = dateUtils.getDuration(
                 plan.start_timestamp,
                 plan.end_timestamp
             );
             if (acc[plan.exam]) {
                 return {
                     ...acc,
-                    [plan.exam]: dateLogic.addDuration(
+                    [plan.exam]: dateUtils.addDuration(
                         acc[plan.exam],
                         planDuration
                     ),
@@ -90,14 +90,14 @@ class CalendarLogicModel {
         }, {});
 
         const recordDurations = records.reduce((acc, record) => {
-            const recordDuration = dateLogic.intervalToDuration(
+            const recordDuration = dateUtils.getDuration(
                 record.start_timestamp,
                 record.end_timestamp
             );
             if (acc[record.exam]) {
                 return {
                     ...acc,
-                    [record.exam]: dateLogic.addDuration(
+                    [record.exam]: dateUtils.addDuration(
                         acc[record.exam],
                         recordDuration
                     ),
@@ -115,17 +115,17 @@ class CalendarLogicModel {
             ...recordDurations,
         }).map((key) => ({
             examName: examDict[key],
-            planDuration: dateLogic.formatDuration(
+            planDuration: dateUtils.formatDurationJa(
                 planDurations[key] || { minutes: 0 }
             ),
-            recordDuration: dateLogic.formatDuration(
+            recordDuration: dateUtils.formatDurationJa(
                 recordDurations[key] || { minutes: 0 }
             ),
         }));
         const rowLength = Math.max(
             ...weeklyData.map((dailyData) => dailyData.data.length)
         );
-        const { prev, next } = dateLogic.getPrevNext(start);
+        const { prev, next } = dateUtils.getPrevNext(start);
         return {
             weeklyData,
             weeklyStatistics,

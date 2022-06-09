@@ -1,4 +1,5 @@
-const { dateLogic, recordLogic } = require("../models");
+const { dateUtils } = require("../utils");
+const { recordLogic } = require("../models");
 
 class RecordController {
     /**
@@ -26,7 +27,7 @@ class RecordController {
         const { exam, title, date, start, end, comment } = req.body;
         await recordLogic.create(exam, title, date, start, end, comment);
 
-        const dateParam = dateLogic.formatDateParam(date);
+        const dateParam = dateUtils.formatDateParam(date);
         const search = new URLSearchParams({ date: dateParam });
         res.redirect(`/?${search.toString()}`);
     }
@@ -49,9 +50,9 @@ class RecordController {
         }
 
         if (
-            !dateLogic.isValidDate(date) ||
-            !dateLogic.isValidTime(start) ||
-            !dateLogic.isValidTime(end)
+            !dateUtils.isValidDate(date) ||
+            !dateUtils.isValidTime(start) ||
+            !dateUtils.isValidTime(end)
         ) {
             console.log("invalid datetime!!");
             return false;

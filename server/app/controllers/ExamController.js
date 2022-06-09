@@ -1,4 +1,5 @@
-const { dateLogic, examLogic } = require("../models");
+const { dateUtils } = require("../utils");
+const { examLogic } = require("../models");
 
 class ExamController {
     /**
@@ -53,7 +54,7 @@ class ExamController {
         if (
             datePlanned &&
             (typeof datePlanned !== "string" ||
-                !dateLogic.isValidDate(datePlanned))
+                !dateUtils.isValidDate(datePlanned))
         ) {
             console.log("invalid planned date!!");
             return false;
