@@ -3,6 +3,7 @@ const { planLogic } = require("../models");
 
 class PlanController {
     /**
+     * 学習予定情報の登録フォームを表示する
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
@@ -16,6 +17,7 @@ class PlanController {
     }
 
     /**
+     * 学習予定情報を登録し、カレンダー画面へリダイレクトする
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
@@ -33,6 +35,11 @@ class PlanController {
         res.redirect(`/?${search.toString()}`);
     }
 
+    /**
+     * フォームから送信されてきたデータのバリデーションを行う
+     * @param {{[key: string]: string}} param0
+     * @returns
+     */
     static async isValidPlan({ exam, title, date, start, end }) {
         if (
             typeof exam !== "string" ||

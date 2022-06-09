@@ -3,6 +3,7 @@ const { examLogic } = require("../models");
 
 class ExamController {
     /**
+     * 試験情報登録フォームを表示する
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
@@ -14,6 +15,7 @@ class ExamController {
     }
 
     /**
+     * 試験情報を登録し、カレンダー画面へリダイレクトする
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
@@ -39,6 +41,11 @@ class ExamController {
         res.redirect(`/`);
     }
 
+    /**
+     * フォームから送信されてきたデータのバリデーションを行う
+     * @param {{[key: string]: string}} param0
+     * @returns
+     */
     static async isValidExam({
         name,
         datePlanned,

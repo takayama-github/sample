@@ -79,10 +79,9 @@ function isSameDate(date1, date2) {
  * @returns {string}
  */
 function formatDateString(date) {
-    return `${date.substring(0, 4)}-${date.substring(
-        4,
+    return `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(
         6
-    )}-${date.substring(6)}`;
+    )}`;
 }
 
 /**
@@ -91,9 +90,7 @@ function formatDateString(date) {
  * @returns {string}
  */
 function formatDateParam(date) {
-    return `${date.substring(0, 4)}${date.substring(5, 7)}${date.substring(
-        8
-    )}`;
+    return `${date.substring(0, 4)}${date.substring(5, 7)}${date.substring(8)}`;
 }
 
 /**
@@ -117,14 +114,14 @@ function getPrevNext(date) {
     };
 }
 
-
 /**
+ * durationを取得
  * @param {number | Date} start
  * @param {number | Date} end
  * @return {Duration}
  */
 function getDuration(start, end) {
-    return intervalToDuration({start,end});
+    return intervalToDuration({ start, end });
 }
 
 /**
@@ -133,10 +130,7 @@ function getDuration(start, end) {
  * @param {Duration} duration2
  */
 function addDuration(duration1, duration2) {
-    return getDuration(
-        0,
-        milliseconds(duration1) + milliseconds(duration2)
-    );
+    return getDuration(0, milliseconds(duration1) + milliseconds(duration2));
 }
 
 /**

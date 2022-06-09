@@ -17,6 +17,11 @@ class PlanModel {
         this.client = client;
     }
 
+    /**
+     * idで学習予定情報を取得
+     * @param {string} id
+     * @returns
+     */
     async findByID(id) {
         /** @type {import("pg").QueryConfig} */
         const query = {
@@ -29,6 +34,11 @@ class PlanModel {
         return res.rows[0];
     }
 
+    /**
+     * 指定期間の学習予定情報を全件取得
+     * @param {{start: Date, end: Date}} params
+     * @returns
+     */
     async search({ start, end }) {
         /** @type {import("pg").QueryConfig} */
         const query = {
@@ -41,6 +51,18 @@ class PlanModel {
         return res.rows;
     }
 
+    /**
+     * 学習予定情報をDBに登録
+     * @param {{
+     *      id: string,
+     *      exam: string,
+     *      title: string,
+     *      startTimestamp: Date,
+     *      endTimestamp: Date,
+     *      comment: string
+     * }} params
+     * @returns
+     */
     async create({ id, exam, title, startTimestamp, endTimestamp, comment }) {
         /** @type {import("pg").QueryConfig} */
         const query = {

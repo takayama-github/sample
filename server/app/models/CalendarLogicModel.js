@@ -19,6 +19,7 @@ class CalendarLogicModel {
     }
 
     /**
+     * 一週間分の学習予定情報と実績情報を集計し、カレンダー画面に表示する
      * @param {string} start
      * @param {string} end
      * @returns {{
@@ -38,8 +39,11 @@ class CalendarLogicModel {
      *  }}
      */
     async getWeeklyCalender(start, end) {
+        // DBから試験情報を取得する
         const exams = await this.examModel.search();
-        /** @type {Object.<string, string>} */
+
+        // 試験情報データを整形 [id, name] => {id: name}
+        /** @type {{[key: string]: string}} */
         const examDict = exams.reduce(
             (dict, exam) => ({
                 ...dict,
@@ -48,19 +52,23 @@ class CalendarLogicModel {
             {}
         );
 
+        // DBから学習予定情報と実績情報を取得する
         const plans = await this.planModel.search({ start, end });
         const records = await this.recordModel.search({ start, end });
 
         const allData = plans
-            .map((plan) => ({ ...plan, isPlan: true }))
-            .concat(records)
-            .sort((a, b) => a.start_timestamp - b.start_timestamp);
+            .map((plan) => ({ ...plan, isPlan: true })) // 学習予定情報にタグをつける
+            .concat(records) // 予定情報と実績情報を一つの配列にする
+            .sort((a, b) => a.start_timestamp - b.start_timestamp); // 開始日時でソート
 
+        // 予定情報と実績情報を日ごとにわける
         const weeklyData = classifyByDay(allData, start, examDict);
 
+        // 予定時間と実績時間を試験ごとに集計する
         const planDurations = plans.reduce(aggregateByExam, {});
         const recordDurations = records.reduce(aggregateByExam, {});
 
+        // 集計した予定時間と実績時間を試験ごとに合わせる
         const weeklyStatistics = Object.keys({
             ...planDurations,
             ...recordDurations,
@@ -73,10 +81,15 @@ class CalendarLogicModel {
                 recordDurations[key] || { minutes: 0 }
             ),
         }));
+
+        // カレンダー画面に表示する表の行数を算出
         const rowLength = Math.max(
             ...weeklyData.map((dailyData) => dailyData.data.length)
         );
+
+        // 前週、次週へ移動するボタンのパラメータを算出
         const { prev, next } = getPrevNext(start);
+
         return {
             weeklyData,
             weeklyStatistics,

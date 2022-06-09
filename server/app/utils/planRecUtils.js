@@ -1,15 +1,16 @@
-const { addDate,
+const {
+    addDate,
     isSameDate,
     formatDate,
     getDuration,
-    addDuration
+    addDuration,
 } = require("./dateUtils");
 
 /**
  * 日付ごとにデータをまとめる
  * @param {Object[]} data
  * @param {Date} start
- * @param {Object.<string, string>} examDict
+ * @param {{[key: string]: string}} examDict
  * @returns {{
  *     date: Date,
  *     displayDate: string,
@@ -22,9 +23,7 @@ function classifyByDay(data, start, examDict) {
     for (let i = 0; i < 7; i++) {
         const targetDate = addDate(start, { days: i });
         const targetData = data
-            .filter((datum) =>
-                isSameDate(datum.start_timestamp, targetDate)
-            )
+            .filter((datum) => isSameDate(datum.start_timestamp, targetDate))
             .map((datum) => {
                 const exam = examDict[datum.exam];
                 return { ...datum, exam };
@@ -52,17 +51,11 @@ function classifyByDay(data, start, examDict) {
  * }}
  */
 function aggregateByExam(acc, data) {
-    const dataDuration = getDuration(
-        data.start_timestamp,
-        data.end_timestamp
-    );
+    const dataDuration = getDuration(data.start_timestamp, data.end_timestamp);
     if (acc[data.exam]) {
         return {
             ...acc,
-            [data.exam]: addDuration(
-                acc[data.exam],
-                dataDuration
-            ),
+            [data.exam]: addDuration(acc[data.exam], dataDuration),
         };
     } else {
         return {
@@ -74,5 +67,5 @@ function aggregateByExam(acc, data) {
 
 module.exports = {
     classifyByDay,
-    aggregateByExam
+    aggregateByExam,
 };

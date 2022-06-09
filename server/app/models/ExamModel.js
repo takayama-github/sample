@@ -19,6 +19,11 @@ class ExamModel {
         this.client = client;
     }
 
+    /**
+     * idで試験情報を取得
+     * @param {string} id
+     * @returns
+     */
     async findByID(id) {
         /** @type {import("pg").QueryConfig} */
         const query = {
@@ -31,6 +36,10 @@ class ExamModel {
         return res.rows[0];
     }
 
+    /**
+     * 試験情報を全件取得
+     * @returns
+     */
     async search() {
         /** @type {import("pg").QueryConfig} */
         const query = {
@@ -43,6 +52,7 @@ class ExamModel {
     }
 
     /**
+     * 試験情報をDBに登録
      * @param {{
      *      name: string,
      *      datePlanned: Date,

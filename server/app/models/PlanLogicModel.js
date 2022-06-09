@@ -11,7 +11,7 @@ class PlanLogicModel {
     }
 
     /**
-     *
+     * 試験情報を取得
      * @returns {{exams: Object[]}}
      */
     async getFormData() {
@@ -22,6 +22,7 @@ class PlanLogicModel {
     }
 
     /**
+     * 学習予定情報をDBに登録
      * @param {string} exam
      * @param {string} title
      * @param {string} date

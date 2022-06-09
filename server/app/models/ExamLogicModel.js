@@ -9,6 +9,7 @@ class ExamLogicModel {
     }
 
     /**
+     * 試験情報をDBに登録
      * @param {{
      *      name: string,
      *      datePlanned: Date,

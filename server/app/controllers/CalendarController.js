@@ -8,6 +8,7 @@ const { calendarLogic } = require("../models");
 
 class CalendarController {
     /**
+     * 一週間分のデータを取得し、カレンダー画面に表示する
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
