@@ -46,7 +46,6 @@
 
 - Docker
 - Docker Compose
-- Node.js
 
 ### 手順
 
