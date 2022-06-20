@@ -54,6 +54,7 @@ class ExamModel {
     /**
      * 試験情報をDBに登録
      * @param {{
+     *      id: string,
      *      name: string,
      *      datePlanned: Date,
      *      dateExam: Date,
