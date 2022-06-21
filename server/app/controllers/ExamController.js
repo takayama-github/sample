@@ -20,7 +20,6 @@ class ExamController {
      * @param {import("express").Response} res
      */
     async createExam(req, res) {
-        console.log(JSON.stringify(req.body));
         if (!(await ExamController.isValidExam(req.body))) {
             res.render("error", { message: "Invalid exam!!" });
             return;
@@ -54,7 +53,7 @@ class ExamController {
         comment,
     }) {
         if (typeof name !== "string" || name === "") {
-            console.log("not string!!");
+            console.error("not string!!");
             return false;
         }
 
@@ -62,7 +61,7 @@ class ExamController {
             datePlanned &&
             (typeof datePlanned !== "string" || !isValidDate(datePlanned))
         ) {
-            console.log("invalid planned date!!");
+            console.error("invalid planned date!!");
             return false;
         }
 
@@ -71,7 +70,7 @@ class ExamController {
             (typeof pointQualified !== "string" ||
                 !/^\d+$/.test(pointQualified))
         ) {
-            console.log("invalid qualified point!!");
+            console.error("invalid qualified point!!");
             return false;
         }
 
@@ -79,12 +78,12 @@ class ExamController {
             pointMax &&
             (typeof pointMax !== "string" || !/^\d+$/.test(pointMax))
         ) {
-            console.log("invalid max point!!");
+            console.error("invalid max point!!");
             return false;
         }
 
         if (comment && typeof comment !== "string") {
-            console.log("invalid comment!!");
+            console.error("invalid comment!!");
             return false;
         }
 

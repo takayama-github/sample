@@ -47,22 +47,22 @@ class RecordController {
             typeof start !== "string" ||
             typeof end !== "string"
         ) {
-            console.log("not string!!");
+            console.error("not string!!");
             return false;
         }
 
         if (title === "") {
-            console.log("empty title!!");
+            console.error("empty title!!");
             return false;
         }
 
         if (!isValidDate(date) || !isValidTime(start) || !isValidTime(end)) {
-            console.log("invalid datetime!!");
+            console.error("invalid datetime!!");
             return false;
         }
 
         if (new Date(`${date}T${start}`) >= new Date(`${date}T${end}`)) {
-            console.log("start comes after end!!");
+            console.error("start comes after end!!");
             return false;
         }
 

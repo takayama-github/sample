@@ -20,6 +20,18 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+    console.log(`Time:${new Date().toLocaleString("ja-JP")}`);
+    next();
+});
+
+app.use((req, res, next) => {
+    if (req.method === "POST") {
+        console.log(`Body:${JSON.stringify(req.body)}`);
+    }
+    next();
+});
+
 app.use("/", router);
 
 // catch 404 and forward to error handler
